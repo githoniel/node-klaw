@@ -19,7 +19,8 @@ function Walker (dir, options) {
   this.root = path.resolve(dir)
   this.paths = [this.root]
   this.options = options
-  if (options.depthLimit > -1) this.rootDepth = this.root.split(path.sep).length + 1
+  // remove c:\\ end \\
+  if (options.depthLimit > -1) this.rootDepth = this.root.replace(/[\\/]$/, '').split(path.sep).length + 1
   this.fs = options.fs || require('graceful-fs')
 }
 util.inherits(Walker, Readable)
@@ -33,10 +34,13 @@ Walker.prototype._read = function () {
 
   statFunction(pathItem, function (err, stats) {
     var item = { path: pathItem, stats: stats }
-    if (err) return self.emit('error', err, item)
-
+    if (err) {
+        self.push(item)
+        return self.emit('error', err, item)
+    }
+    // remove c:\\ end \\
     if (!stats.isDirectory() || (self.rootDepth &&
-      pathItem.split(path.sep).length - self.rootDepth >= self.options.depthLimit)) {
+      pathItem.replace(/[\\/]$/, '').split(path.sep).length - self.rootDepth >= self.options.depthLimit)) {
       return self.push(item)
     }
 

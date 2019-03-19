@@ -1,5 +1,5 @@
 {
-  "name": "klaw",
+  "name": "@landi/klaw",
   "version": "3.0.0",
   "description": "File system walker with Readable stream interface.",
   "main": "./src/index.js",

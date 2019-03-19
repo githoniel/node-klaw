@@ -1,6 +1,16 @@
 Node.js - klaw
 ==============
 
+## 修改
+
+1. 出错不会打断循环
+2. 兼容window 根目录结尾必须带斜杠的问题
+
+`c: `是不合法的路径，会被nodejs转换为本文件的执行路径，导致GG，必须是`C:\\`
+
+https://github.com/nodejs/node/issues/9378
+
+
 <a href="https://standardjs.com" style="float: right; padding: 0 0 20px 20px;"><img src="https://cdn.rawgit.com/feross/standard/master/sticker.svg" alt="JavaScript Standard Style" width="100" align="right"></a>
 
 A Node.js file system walker extracted from [fs-extra](https://github.com/jprichardson/node-fs-extra).
